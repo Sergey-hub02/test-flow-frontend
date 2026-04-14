@@ -24,3 +24,9 @@
 $font-family-sans-serif: system-ui, -apple-system, Roboto, sans-serif;
 
 @import 'bootstrap/scss/bootstrap';
+
+$h7-font-size: $font-size-base * 0.75;
+
+.fs-7 {
+    font-size: $h7-font-size;
+}
