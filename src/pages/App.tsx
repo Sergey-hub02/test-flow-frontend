@@ -1,6 +1,7 @@
 import { Container, Row, Col, Form, Button, Image, Card } from 'react-bootstrap'
 import Header from '@components/Header/Header'
 import UserCard from '@components/UserCard/UserCard'
+import Footer from '@components/Footer/Footer'
 import userStubImage from '@assets/user-stub.svg'
 import './App.scss'
 
@@ -166,6 +167,8 @@ const App = ({ title }: { title: string }) => {
                     </Row>
                 </Container>
             </main>
+
+            <Footer />
         </>
     )
 }

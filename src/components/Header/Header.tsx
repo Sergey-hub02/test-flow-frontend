@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <Navbar className="flex-nowrap border-bottom bg-white" sticky="top">
             <Container className="px-5" fluid>
-                <Logo />
+                <Logo theme="light" />
                 <SearchBar />
 
                 <Dropdown>
