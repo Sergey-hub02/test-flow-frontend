@@ -1,0 +1,33 @@
+@font-face {
+    font-family: Roboto;
+    src: local('Roboto'), url(../fonts/Roboto/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Roboto;
+    font-weight: 600;
+    src: local('Roboto'), url(../fonts/Roboto/Roboto-Medium.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Roboto;
+    font-weight: 700;
+    src: local('Roboto'), url(../fonts/Roboto/Roboto-SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    src: local('Roboto'), url(../fonts/Roboto/Roboto-Italic.ttf) format('truetype');
+}
+
+$font-family-sans-serif: system-ui, -apple-system, Roboto, sans-serif;
+$component-active-bg: #0F172A !default;
+
+@import 'bootstrap/scss/bootstrap';
+
+$h7-font-size: $font-size-base * 0.75;
+
+.fs-7 {
+    font-size: $h7-font-size;
+}
