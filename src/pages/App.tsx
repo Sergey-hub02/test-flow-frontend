@@ -1,8 +1,8 @@
-import { Container, Row, Col, Form, Button, Image, Card } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import Header from '@components/Header/Header'
 import UserCard from '@components/UserCard/UserCard'
+import ImageUploader from '@components/ImageUploader/ImageUploader'
 import Footer from '@components/Footer/Footer'
-import userStubImage from '@assets/user-stub.svg'
 import './App.scss'
 
 // TODO: добавить получение данных пользователя через запрос к API
@@ -131,38 +131,7 @@ const App = ({ title }: { title: string }) => {
                                 </Form.Group>
                             </Form>
 
-                            <Form className="border rounded py-3 px-4">
-                                <Form.Group className="mb-4">
-                                    <h4>Загрузка фотографии</h4>
-                                </Form.Group>
-
-                                <Form.Group className="mb-3">
-                                    <Card className="w-100 overflow-hidden photo-preview-container">
-                                        <Image
-                                            src={userStubImage}
-                                            alt="Предварительный просмотр"
-                                            className="photo-preview"
-                                        />
-                                    </Card>
-                                </Form.Group>
-
-                                <Form.Group className="mb-3">
-                                    <Form.Label htmlFor="photo" className="mb-1">Фотография</Form.Label>
-
-                                    <Form.Control
-                                        id="photo"
-                                        name="photo"
-                                        type="file"
-                                        accept=".jpg,.jpeg,.png"
-                                    />
-                                </Form.Group>
-
-                                <Form.Group>
-                                    <Button type="submit" variant="success">
-                                        Загрузить
-                                    </Button>
-                                </Form.Group>
-                            </Form>
+                            <ImageUploader />
                         </Col>
                     </Row>
                 </Container>
