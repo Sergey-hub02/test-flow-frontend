@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router'
 import { Card, ListGroup, Image } from 'react-bootstrap'
 import userStubImage from '@assets/user-stub.svg'
 import './UserCard.scss'
@@ -5,6 +6,8 @@ import './UserCard.scss'
 // TODO: отобразить возраст вместе с датой рождения
 
 const UserCard = () => {
+    const { pathname } = useLocation()
+
     return (
         <Card className="bg-light">
             <Card.Header className="px-5 py-4">
@@ -20,10 +23,41 @@ const UserCard = () => {
             </Card.Header>
 
             <ListGroup variant="flush">
-                <ListGroup.Item href="/" action active>Профиль</ListGroup.Item>
-                <ListGroup.Item href="/my-disciplines/" action>Мои дисциплины</ListGroup.Item>
-                <ListGroup.Item href="/disciplines/" action>Список доступных дисциплин</ListGroup.Item>
-                <ListGroup.Item href="/logout/" action>Выход</ListGroup.Item>
+                <ListGroup.Item
+                    as={Link}
+                    to="/"
+                    active={pathname === '/'}
+                    action
+                >
+                    Профиль
+                </ListGroup.Item>
+
+                <ListGroup.Item
+                    as={Link}
+                    to="/disciplines/userId/"
+                    active={pathname === '/disciplines/userId/'}
+                    action
+                >
+                    Мои дисциплины
+                </ListGroup.Item>
+
+                <ListGroup.Item
+                    as={Link}
+                    to="/disciplines/"
+                    active={pathname === '/disciplines/'}
+                    action
+                >
+                    Список доступных дисциплин
+                </ListGroup.Item>
+
+                <ListGroup.Item
+                    as={Link}
+                    to="/logout/"
+                    active={pathname === '/logout/'}
+                    action
+                >
+                    Выход
+                </ListGroup.Item>
             </ListGroup>
         </Card>
     )

@@ -41,7 +41,7 @@ const disciplines: DisciplineType[] = [
     },
 ]
 
-const Disciplines = ({ title }: { title: string }) => {
+const UserDisciplines = ({ title }: { title: string }) => {
     const [selectedDiscipline, setSelectedDiscipline] = useState({} as DisciplineType)
     const [showDisciplineModal, setShowDisciplineModal] = useState(false)
 
@@ -67,6 +67,15 @@ const Disciplines = ({ title }: { title: string }) => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
+    const handleDeleteDiscipline = (discipline: DisciplineType) => {
+        if (!confirm(`Вы уверены, что хотите удалить дисциплину "${discipline.name}" из своего списка?`)) {
+            return
+        }
+
+        // TODO: сделать вызов к API
+        console.log('Удаление дисциплины', discipline)
+    }
+
     return (
         <>
             <title>{title}</title>
@@ -83,7 +92,7 @@ const Disciplines = ({ title }: { title: string }) => {
                         <Col lg={9}>
                             <section className="section">
                                 <header className="section-header">
-                                    <h4 className="section-title">Доступные дисциплины <small>({disciplines.length})</small></h4>
+                                    <h4 className="section-title">Мои дисциплины <small>({disciplines.length})</small></h4>
 
                                     <div className="section-filter"></div>
                                 </header>
@@ -96,8 +105,9 @@ const Disciplines = ({ title }: { title: string }) => {
                                                     <Col key={discipline.guid} className="mt-3" sm={6} lg={4}>
                                                         <Discipline
                                                             discipline={discipline}
-                                                            variant="regular"
+                                                            variant="user"
                                                             onView={handleViewDiscipline}
+                                                            onDelete={handleDeleteDiscipline}
                                                         />
                                                     </Col>
                                                 )
@@ -131,4 +141,4 @@ const Disciplines = ({ title }: { title: string }) => {
     )
 }
 
-export default Disciplines
+export default UserDisciplines
