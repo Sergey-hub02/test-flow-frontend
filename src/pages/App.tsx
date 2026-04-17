@@ -1,13 +1,33 @@
+import { useContext } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+
 import Header from '@components/Header/Header'
 import UserCard from '@components/UserCard/UserCard'
 import ImageUploader from '@components/ImageUploader/ImageUploader'
 import Footer from '@components/Footer/Footer'
+
+import { AuthContext } from '@contexts/AuthContext'
+
 import './App.scss'
 
 // TODO: добавить получение данных пользователя через запрос к API
+const user = {
+    guid: '12345678',
+    lastName: 'Иванов',
+    firstName: 'Иван',
+    secondName: 'Иванович',
+    login: 'ivanov@mail.ru',
+    birthday: new Date('1998-04-20'),
+    role: 'student',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+}
+
+// TODO: добавить компонент, показывающий загрузку страницы
 
 const App = ({ title }: { title: string }) => {
+    const { user: userShort } = useContext(AuthContext)
+
     return (
         <>
             <title>{title}</title>
@@ -18,7 +38,7 @@ const App = ({ title }: { title: string }) => {
                 <Container className="px-5" fluid>
                     <Row>
                         <Col className="m-lg-0 mx-auto mb-3" sm={6} lg={3}>
-                            <UserCard />
+                            <UserCard user={userShort} />
                         </Col>
 
                         <Col lg={9}>
@@ -36,6 +56,7 @@ const App = ({ title }: { title: string }) => {
                                                 id="last-name"
                                                 name="lastName"
                                                 type="text"
+                                                value={user.lastName}
                                             />
                                         </Col>
 
@@ -46,6 +67,7 @@ const App = ({ title }: { title: string }) => {
                                                 id="first-name"
                                                 name="firstName"
                                                 type="text"
+                                                value={user.firstName}
                                             />
                                         </Col>
 
@@ -56,6 +78,7 @@ const App = ({ title }: { title: string }) => {
                                                 id="second-name"
                                                 name="secondName"
                                                 type="text"
+                                                value={user.secondName}
                                             />
                                         </Col>
                                     </Row>
@@ -70,6 +93,7 @@ const App = ({ title }: { title: string }) => {
                                                 id="login"
                                                 name="login"
                                                 type="email"
+                                                value={user.login}
                                             />
                                         </Col>
 
@@ -106,7 +130,8 @@ const App = ({ title }: { title: string }) => {
                                             <Form.Control
                                                 id="created-at"
                                                 name="createdAt"
-                                                type="datetime-local"
+                                                type="text"
+                                                value={user.createdAt.toLocaleString()}
                                                 disabled
                                             />
                                         </Col>
@@ -117,7 +142,8 @@ const App = ({ title }: { title: string }) => {
                                             <Form.Control
                                                 id="updated-at"
                                                 name="updatedAt"
-                                                type="datetime-local"
+                                                type="text"
+                                                value={user.updatedAt.toLocaleString()}
                                                 disabled
                                             />
                                         </Col>

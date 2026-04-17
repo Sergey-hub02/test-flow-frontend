@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
+
 import Header from '@components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 import UserCard from '@/components/UserCard/UserCard'
 import Discipline from '@/components/Discipline/Discipline'
 import ViewDisciplineModal from '@/components/ViewDisciplineModal/ViewDisciplineModal'
 import PaginationBlock from '@/components/PaginationBlock/PaginationBlock'
+
 import { type DisciplineType } from '@/types/discipline'
+import { AuthContext } from '@/contexts/AuthContext'
 
 const disciplines: DisciplineType[] = [
     {
@@ -42,6 +45,7 @@ const disciplines: DisciplineType[] = [
 ]
 
 const Disciplines = ({ title }: { title: string }) => {
+    const { user } = useContext(AuthContext)
     const [selectedDiscipline, setSelectedDiscipline] = useState({} as DisciplineType)
     const [showDisciplineModal, setShowDisciplineModal] = useState(false)
 
@@ -77,7 +81,7 @@ const Disciplines = ({ title }: { title: string }) => {
                 <Container className="px-5" fluid>
                     <Row>
                         <Col className="m-lg-0 mx-auto mb-3" sm={6} lg={3}>
-                            <UserCard />
+                            <UserCard user={user} />
                         </Col>
 
                         <Col lg={9}>

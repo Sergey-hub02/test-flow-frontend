@@ -45,7 +45,7 @@ const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) 
                     {isUser && (
                         <>
                             <Button
-                                href="/disciplines/userId/disciplineId/"
+                                href="/my-disciplines/disciplineId/"
                                 className="bg-dark mt-1"
                             >Просмотр</Button>
 
