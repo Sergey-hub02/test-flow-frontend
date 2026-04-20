@@ -1,0 +1,12 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+
+.tests-list-container {
+    position: static;
+
+    @media (min-width: map-get($grid-breakpoints, "lg")) {
+        position: sticky;
+        top: 7.25rem;
+        z-index: 10;
+    }
+}

@@ -72,12 +72,12 @@ const Disciplines = ({ title }: { title: string }) => {
     }
 
     return (
-        <>
+        <div className="d-flex flex-column min-vh-100">
             <title>{title}</title>
 
             <Header />
 
-            <main className="py-4">
+            <main className="flex-grow-1 py-4">
                 <Container className="px-5" fluid>
                     <Row>
                         <Col className="m-lg-0 mx-auto mb-3" sm={6} lg={3}>
@@ -131,7 +131,7 @@ const Disciplines = ({ title }: { title: string }) => {
                 onHide={hideDisciplineModal}
                 discipline={selectedDiscipline}
             />
-        </>
+        </div>
     )
 }
 
