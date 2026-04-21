@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SearchModal from '@components/SearchModal/SearchModal'
+import SearchModal from '@/components/SearchModal/SearchModal'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './SearchBar.scss'
 

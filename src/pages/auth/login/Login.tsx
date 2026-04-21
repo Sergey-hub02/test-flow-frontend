@@ -1,5 +1,5 @@
 import { Button, Container, Form, Image } from 'react-bootstrap';
-import testFlowIcon from '@assets/test-flow-icon-128x128.svg';
+import testFlowIcon from '@/assets/test-flow-icon-128x128.svg';
 import '../auth.scss';
 
 const Login = ({ title }: { title: string }) => {

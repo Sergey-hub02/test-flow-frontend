@@ -1,5 +1,5 @@
 import { Container, Form, Image, Button, Row, Col } from 'react-bootstrap';
-import testFlowIcon from '@assets/test-flow-icon-128x128.svg';
+import testFlowIcon from '@/assets/test-flow-icon-128x128.svg';
 import '../auth.scss';
 
 const Register = ({ title }: { title: string }) => {

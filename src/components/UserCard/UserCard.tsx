@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router'
 import { Card, ListGroup, Image } from 'react-bootstrap'
-import userStubImage from '@assets/user-stub.svg'
+import userStubImage from '@/assets/user-stub.svg'
 import type { UserType } from '@/types/user'
 import './UserCard.scss'
 

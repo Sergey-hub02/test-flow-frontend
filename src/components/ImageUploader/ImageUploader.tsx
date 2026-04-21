@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from 'react'
 import { Form, Card, Image, Button } from 'react-bootstrap'
 import { MAX_FILE_UPLOAD_SIZE } from '@/constants'
-import userStubImage from '@assets/user-stub.svg'
+import userStubImage from '@/assets/user-stub.svg'
 
 const ImageUploader = () => {
     const [image, setImage] = useState(userStubImage)

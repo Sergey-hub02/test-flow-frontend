@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 
-import Header from '@components/Header/Header'
-import UserCard from '@components/UserCard/UserCard'
-import ImageUploader from '@components/ImageUploader/ImageUploader'
-import Footer from '@components/Footer/Footer'
+import Header from '@/components/Header/Header'
+import UserCard from '@/components/UserCard/UserCard'
+import ImageUploader from '@/components/ImageUploader/ImageUploader'
+import Footer from '@/components/Footer/Footer'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import './App.scss'
 

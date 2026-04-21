@@ -7,7 +7,8 @@ import Login from '@/pages/auth/login/Login'
 import Register from '@/pages/auth/register/Register'
 import Disciplines from '@/pages/disciplines/Disciplines'
 import UserDisciplines from '@/pages/my-disciplines/UserDisciplines'
-import DetailDiscipline from '@/pages/disciplines/DetailDiscipline'
+import DetailDiscipline from '@/pages/my-disciplines/DetailDiscipline'
+import DetailTest from '@/pages/my-disciplines/tests/DetailTest'
 
 import { AuthProvider } from '@/contexts/AuthContext'
 
@@ -27,8 +28,21 @@ const router = createBrowserRouter([
         element: <UserDisciplines title="Мои дисциплины" />,
     },
     {
-        path: '/my-disciplines/disciplineId/',
+        path: '/my-disciplines/:disciplineId',
         element: <DetailDiscipline />,
+        loader: ({ params }) => {
+            return { disciplineId: params.disciplineId }
+        },
+    },
+    {
+        path: '/my-disciplines/:disciplineId/tests/:testId',
+        element: <DetailTest />,
+        loader: ({ params }) => {
+            return {
+                disciplineId: params.disciplineId,
+                testId: params.testId,
+            }
+        },
     },
     {
         path: '/auth/login/',

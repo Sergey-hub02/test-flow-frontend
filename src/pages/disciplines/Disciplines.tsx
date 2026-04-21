@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
-import Header from '@components/Header/Header'
+import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 import UserCard from '@/components/UserCard/UserCard'
 import Discipline from '@/components/Discipline/Discipline'

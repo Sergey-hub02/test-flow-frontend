@@ -1,6 +1,6 @@
 import { Card, Image, Button } from 'react-bootstrap'
 import { type DisciplineType } from '@/types/discipline'
-import placeholderImage from '@assets/placeholder.png'
+import placeholderImage from '@/assets/placeholder.png'
 
 type DisciplineProps = {
     discipline: DisciplineType,
@@ -45,7 +45,7 @@ const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) 
                     {isUser && (
                         <>
                             <Button
-                                href="/my-disciplines/disciplineId/"
+                                href={`./${discipline.guid}/`}
                                 className="bg-dark mt-1"
                             >Просмотр</Button>
 

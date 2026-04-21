@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
-import Header from '@components/Header/Header'
+import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 import UserCard from '@/components/UserCard/UserCard'
 import Discipline from '@/components/Discipline/Discipline'
@@ -10,39 +10,7 @@ import PaginationBlock from '@/components/PaginationBlock/PaginationBlock'
 
 import { type DisciplineType } from '@/types/discipline'
 import { AuthContext } from '@/contexts/AuthContext'
-
-const disciplines: DisciplineType[] = [
-    {
-        guid: '394bc3f7-08cc-48ad-bbbf-d3c4fd75a433',
-        name: 'Математический анализ',
-        teachers: 'Иванов И.И.',
-        description: 'Раздел математики, который изучает функции, их свойства и изменения. Изначально назывался "анализ бесконечно малых".',
-    },
-    {
-        guid: '81114674-fec8-4de7-838a-613ea6b9b923',
-        name: 'Линейная алгебра',
-        teachers: 'Иванов И.И.',
-        description: 'раздел алгебры, изучающий математические объекты линейной природы. К ним относятся векторные (линейные) пространства и их подпространства, линейные отображения (операторы), линейные, билинейные и квадратичные функции на векторных пространствах.',
-    },
-    {
-        guid: '87db5e1c-f7c0-4ffc-b912-adb7a19aa836',
-        name: 'Английский язык',
-        teachers: 'Иванов И.И.',
-        description: 'индоевропейский язык германской группы. Сложился в Англии в результате взаимодействия нескольких германоязычных племён (англы, саксы, юты) с местными автохтонами, говорившими на кельтских диалектах.',
-    },
-    {
-        guid: '375efd60-6164-4caf-91c1-1ed70d853bc0',
-        name: 'Информатика',
-        teachers: 'Иванов И.И.',
-        description: 'Наука о методах и процессах сбора, хранения, обработки, передачи, анализа и оценки информации с применением компьютерных технологий. Зародилась в середине XX века как самостоятельная наука.',
-    },
-    {
-        guid: 'd67ba4b5-3f77-415d-9ddc-bedc800d55e2',
-        name: 'Физика',
-        teachers: 'Иванов И.И.',
-        description: 'Наука о природе, изучающая простейшие и вместе с тем наиболее общие её закономерности.',
-    },
-]
+import disciplines from '@/mocks/disciplines'
 
 const UserDisciplines = ({ title }: { title: string }) => {
     const { user } = useContext(AuthContext)
