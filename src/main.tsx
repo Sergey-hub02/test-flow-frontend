@@ -9,6 +9,7 @@ import Disciplines from '@/pages/disciplines/Disciplines'
 import UserDisciplines from '@/pages/my-disciplines/UserDisciplines'
 import DetailDiscipline from '@/pages/my-disciplines/DetailDiscipline'
 import DetailTest from '@/pages/my-disciplines/tests/DetailTest'
+import TestAttempt from '@/pages/tests/TestAttempt'
 
 import { AuthProvider } from '@/contexts/AuthContext'
 
@@ -41,6 +42,23 @@ const router = createBrowserRouter([
             return {
                 disciplineId: params.disciplineId,
                 testId: params.testId,
+            }
+        },
+    },
+    {
+        path: '/tests/:testId',
+        element: <TestAttempt />,
+        loader: ({ params }) => {
+            return { testId: params.testId }
+        },
+    },
+    {
+        path: '/tests/:testId/problems/:problemId',
+        element: <TestAttempt />,
+        loader: ({ params }) => {
+            return {
+                testId: params.testId,
+                problemId: params.problemId,
             }
         },
     },

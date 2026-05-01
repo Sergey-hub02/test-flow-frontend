@@ -1,5 +1,6 @@
 import { useLoaderData } from 'react-router'
 import { Container, Row, Col, ListGroupItem, Alert, Button } from 'react-bootstrap'
+import type { MouseEvent } from 'react'
 
 import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
@@ -15,6 +16,17 @@ const DetailTest = () => {
 
     const description = test.fullDescription ?? test.description
     const finalGrade = test.finalGrade ?? '(не рассчитана)'
+
+    const goToTest = (event: MouseEvent) => {
+        event.preventDefault();
+        const $this = event.target as HTMLAnchorElement;
+
+        if (!confirm('При подтверждении действия вы начнёте попытку. Продолжить?')) {
+            return;
+        }
+
+        window.location.href = $this.href;
+    }
 
     return (
         <div className="d-flex flex-column min-vh-100">
@@ -46,6 +58,7 @@ const DetailTest = () => {
                                             <Button
                                                 href={`/tests/${testId}`}
                                                 variant="success"
+                                                onClick={goToTest}
                                             >Пройти тест</Button>
                                         </div>
                                     </div>
@@ -78,7 +91,7 @@ const DetailTest = () => {
 
                         <Col lg={3} className="order-lg-last order-first mb-lg-0 mb-3">
                             <div className="table-of-contents">
-                                <TableOfContents title={`Задания для теста "Тест на дауна"`}>
+                                <TableOfContents title={`Задания для теста "${test.name}"`}>
                                     {test.problems
                                         && test.problems.length > 0
                                         && test.problems.map((problem, index) => (

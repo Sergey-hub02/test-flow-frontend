@@ -8,7 +8,7 @@ const Login = ({ title }: { title: string }) => {
             <title>{title}</title>
 
             <Container className="auth-container py-4" fluid>
-                <Form>
+                <Form method="post">
                     <Form.Group className="mb-3 text-center">
                         <Image src={testFlowIcon} alt="Test Flow" fluid />
                     </Form.Group>
