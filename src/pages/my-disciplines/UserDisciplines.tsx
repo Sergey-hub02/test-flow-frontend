@@ -77,7 +77,7 @@ const UserDisciplines = ({ title }: { title: string }) => {
                                                     <Col key={discipline.guid} className="mt-3" sm={6} lg={4}>
                                                         <Discipline
                                                             discipline={discipline}
-                                                            variant="user"
+                                                            variant={user.role}
                                                             onView={handleViewDiscipline}
                                                             onDelete={handleDeleteDiscipline}
                                                         />

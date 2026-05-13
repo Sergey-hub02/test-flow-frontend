@@ -11,6 +11,7 @@ import DetailDiscipline from '@/pages/my-disciplines/DetailDiscipline'
 import DetailTest from '@/pages/my-disciplines/tests/DetailTest'
 import TestAttempt from '@/pages/tests/TestAttempt'
 import Grades from '@/pages/grades/Grades'
+import DetailAttempt from '@/pages/attempts/DetailAttempt'
 
 import { AuthProvider } from '@/contexts/AuthContext'
 
@@ -66,6 +67,13 @@ const router = createBrowserRouter([
     {
         path: '/grades/',
         element: <Grades title="Итоговые оценки" />,
+    },
+    {
+        path: '/attempts/:attemptId',
+        element: <DetailAttempt />,
+        loader: ({ params }) => {
+            return { attemptId: params.attemptId }
+        },
     },
     {
         path: '/auth/login/',

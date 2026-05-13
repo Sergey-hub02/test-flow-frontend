@@ -1,6 +1,8 @@
 import { useLoaderData } from 'react-router'
 import { Container, Row, Col, ListGroupItem, Alert, Button } from 'react-bootstrap'
-import type { MouseEvent } from 'react'
+import { type MouseEvent, useContext } from 'react'
+
+import { AuthContext } from '@/contexts/AuthContext'
 
 import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
@@ -11,7 +13,10 @@ import tests from '@/mocks/tests'
 import '../DetailDiscipline.scss'
 
 const DetailTest = () => {
+    const { user } = useContext(AuthContext)
     const { disciplineId, testId } = useLoaderData()
+
+    // TODO: добавить на бэке фильтрацию попыток по роли пользователя
     const [test] = tests.filter(test => test.disciplineId === disciplineId && test.guid === testId)
 
     const description = test.fullDescription ?? test.description
@@ -54,13 +59,15 @@ const DetailTest = () => {
                                             <div><strong>Итоговая оценка за тест:</strong> {finalGrade}</div>
                                         </div>
 
-                                        <div className="mt-3">
-                                            <Button
-                                                href={`/tests/${testId}`}
-                                                variant="success"
-                                                onClick={goToTest}
-                                            >Пройти тест</Button>
-                                        </div>
+                                        {user.role === 'student' && (
+                                            <div className="mt-3">
+                                                <Button
+                                                    href={`/tests/${testId}`}
+                                                    variant="success"
+                                                    onClick={goToTest}
+                                                >Пройти тест</Button>
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="mt-4">
@@ -73,10 +80,12 @@ const DetailTest = () => {
                                                         {test.attempts.map((attempt, index) => (
                                                             <Col key={attempt.guid} lg={4} className="mb-3">
                                                                 <AttemptCard
+                                                                    guid={attempt.guid}
                                                                     title={`Попытка №${index + 1}`}
                                                                     grade={attempt.finalGrade}
                                                                     createdAt={attempt.createdAt}
                                                                     updatedAt={attempt.updatedAt}
+                                                                    showLink={user.role === 'teacher'}
                                                                 />
                                                             </Col>
                                                         ))}

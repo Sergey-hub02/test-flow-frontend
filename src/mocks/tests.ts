@@ -3,18 +3,20 @@ import { type TestType } from '@/types/test'
 const tests: TestType[] = [
     {
         guid: '53955589-8f57-476d-9e0c-aa489a8f95d6',
-        name: 'Тест на дауна',
-        description: 'Очень интересный тест. Даун вы или же нет? Пройдите тест и узнайте!',
-        problems: ['Вы даун?', 'Вы аутист?', 'Вы мудила?', 'Вы ебланище?'],
+        name: 'Тест №1',
+        description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate.',
+        problems: ['Задание 1', 'Задание 2', 'Задание 3', 'Задание 4'],
         duration: 120,
-        attemptsCount: 2,
+        attemptsCount: 5,
         disciplineId: 'e20cd01c-0eff-4fa9-aad1-799597b861d7',
+        finalGrade: 5,
         attempts: [
             {
                 guid: '27a2b49a-2af2-43d2-b7fc-c02af7d2d8f4',
                 linearGrade: 3.45,
                 nonLinearGrade: 4.32,
                 finalGrade: 4,
+                user: '5ab79ad8-7bd5-4289-b6fa-c944209f3992',
                 createdAt: new Date('2026-04-21T22:08:00'),
                 updatedAt: new Date('2026-04-21T23:08:00')
             },
@@ -23,6 +25,7 @@ const tests: TestType[] = [
                 linearGrade: 5.0,
                 nonLinearGrade: 5.0,
                 finalGrade: 5,
+                user: '5ab79ad8-7bd5-4289-b6fa-c944209f3992',
                 createdAt: new Date('2026-04-19T20:00:00'),
                 updatedAt: new Date('2026-04-19T21:00:00')
             },
@@ -31,6 +34,7 @@ const tests: TestType[] = [
                 linearGrade: 4.30,
                 nonLinearGrade: 4.82,
                 finalGrade: 5,
+                user: '5ab79ad8-7bd5-4289-b6fa-c944209f3992',
                 createdAt: new Date('2026-04-10T15:30:00'),
                 updatedAt: new Date('2026-04-10T16:00:00')
             },
@@ -47,7 +51,7 @@ const tests: TestType[] = [
     },
     {
         guid: 'e298aab3-fa9b-4ab5-8805-aa6b19c61d78',
-        name: 'Тест на ебланище',
+        name: 'Тест №2',
         description: 'Очень интересный тест. Ебланище вы или же нет? Пройдите тест и узнайте!',
         problems: ['Просто конченный уебан', 'Говнище', 'Центр карьеры', 'Пидор'],
         duration: 120,
@@ -65,6 +69,7 @@ const tests: TestType[] = [
         attempts: [
             {
                 guid: '5b95d4c6-ead8-44a2-9171-eb09e1cab9fa',
+                user: '5ab79ad8-7bd5-4289-b6fa-c944209f3992',
                 createdAt: new Date('2026-03-13T10:30:00'),
                 updatedAt: new Date('2026-03-13T12:00:00')
             },

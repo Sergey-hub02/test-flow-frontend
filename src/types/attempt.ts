@@ -3,6 +3,7 @@ export type AttemptType = {
     linearGrade?: number,
     nonLinearGrade?: number,
     finalGrade?: number,
+    user: string,
     createdAt: Date,
     updatedAt: Date,
 }

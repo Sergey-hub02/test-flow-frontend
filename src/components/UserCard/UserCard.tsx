@@ -49,14 +49,16 @@ const UserCard = ({ user }: UserCardProps) => {
                     Мои дисциплины
                 </ListGroup.Item>
 
-                <ListGroup.Item
-                    as={Link}
-                    to="/disciplines/"
-                    active={pathname === '/disciplines/'}
-                    action
-                >
-                    Список доступных дисциплин
-                </ListGroup.Item>
+                {user.role === 'student' && (
+                    <ListGroup.Item
+                        as={Link}
+                        to="/disciplines/"
+                        active={pathname === '/disciplines/'}
+                        action
+                    >
+                        Список доступных дисциплин
+                    </ListGroup.Item>
+                )}
 
                 <ListGroup.Item
                     as={Link}
