@@ -1,5 +1,6 @@
-import { useContext } from 'react'
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import { useContext, useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react'
+import { useNavigate } from 'react-router'
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
 
 import Header from '@/components/Header/Header'
 import UserCard from '@/components/UserCard/UserCard'
@@ -7,26 +8,98 @@ import ImageUploader from '@/components/ImageUploader/ImageUploader'
 import Footer from '@/components/Footer/Footer'
 
 import { AuthContext } from '@/contexts/AuthContext'
-
 import './App.scss'
-
-// TODO: добавить получение данных пользователя через запрос к API
-const user = {
-    guid: '12345678',
-    lastName: 'Иванов',
-    firstName: 'Иван',
-    secondName: 'Иванович',
-    login: 'ivanov@mail.ru',
-    birthday: new Date('1998-04-20'),
-    role: 'student',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-}
-
-// TODO: добавить компонент, показывающий загрузку страницы
 
 const App = ({ title }: { title: string }) => {
     const { user: userShort } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const [user, setUser] = useState<any>({})
+
+    const [lastName, setLastName] = useState<string>('')
+    const [firstName, setFirstName] = useState<string>('')
+    const [secondName, setSecondName] = useState<string>('')
+    const [birthday, setBirthday] = useState<string>('')
+    const [error, setError] = useState<string>('')
+
+    const fetchUserData = async (guid: string) => {
+        const response = await fetch(`/api/v1/users/${guid}`)
+        const body = await response.json()
+
+        if (!response.ok && body.error) {
+            throw new Error(body.error)
+        }
+
+        return body
+    }
+
+    useEffect(() => {
+        if (!userShort?.guid) {
+            navigate('/auth/login/')
+            return
+        }
+
+        const guid = userShort.guid
+
+        fetchUserData(guid).then(userData => {
+            setUser(userData)
+            setLastName(userData.lastName)
+            setFirstName(userData.firstName)
+            setSecondName(userData.secondName)
+            setBirthday(userData.birthday)
+        })
+    }, [])
+
+    const handleLastNameChange = (event: ChangeEvent) => {
+        const value = (event.target as HTMLInputElement).value
+        setLastName(value)
+    }
+
+    const handleFirstNameChange = (event: ChangeEvent) => {
+        const value = (event.target as HTMLInputElement).value
+        setFirstName(value)
+    }
+
+    const handleSecondNameChange = (event: ChangeEvent) => {
+        const value = (event.target as HTMLInputElement).value
+        setSecondName(value)
+    }
+
+    const handleBirthdayChange = (event: ChangeEvent) => {
+        const value = (event.target as HTMLInputElement).value
+        setBirthday(value)
+    }
+
+    const handleUpdate = async (event: SubmitEvent) => {
+        event.preventDefault()
+        const guid = user.guid
+
+        if (!guid) {
+            return
+        }
+
+        const response = await fetch(`/api/v1/users/${guid}`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                lastName: lastName,
+                firstName: firstName,
+                secondName: secondName,
+                birthday: birthday,
+            }),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+        })
+
+        const body = await response.json()
+
+        if (!response.ok && body.error) {
+            setError(body.error)
+            return
+        }
+
+        setError('')
+        window.location.reload()
+    }
 
     return (
         <div className="d-flex flex-column min-vh-100">
@@ -42,10 +115,16 @@ const App = ({ title }: { title: string }) => {
                         </Col>
 
                         <Col lg={9}>
-                            <Form className="border rounded py-3 px-4 mb-3">
+                            <Form className="border rounded py-3 px-4 mb-3" method="post" onSubmit={handleUpdate}>
                                 <Form.Group className="mb-4">
                                     <h4>Общая информация</h4>
                                 </Form.Group>
+
+                                {error && (
+                                    <Form.Group>
+                                        <Alert variant="danger">{error}</Alert>
+                                    </Form.Group>
+                                )}
 
                                 <Form.Group>
                                     <Row>
@@ -56,7 +135,8 @@ const App = ({ title }: { title: string }) => {
                                                 id="last-name"
                                                 name="lastName"
                                                 type="text"
-                                                value={user.lastName}
+                                                value={lastName}
+                                                onChange={handleLastNameChange}
                                             />
                                         </Col>
 
@@ -67,7 +147,8 @@ const App = ({ title }: { title: string }) => {
                                                 id="first-name"
                                                 name="firstName"
                                                 type="text"
-                                                value={user.firstName}
+                                                value={firstName}
+                                                onChange={handleFirstNameChange}
                                             />
                                         </Col>
 
@@ -78,7 +159,8 @@ const App = ({ title }: { title: string }) => {
                                                 id="second-name"
                                                 name="secondName"
                                                 type="text"
-                                                value={user.secondName}
+                                                value={secondName}
+                                                onChange={handleSecondNameChange}
                                             />
                                         </Col>
                                     </Row>
@@ -86,7 +168,7 @@ const App = ({ title }: { title: string }) => {
 
                                 <Form.Group>
                                     <Row>
-                                        <Col className="mb-3" md={4}>
+                                        <Col className="mb-3" md={6}>
                                             <Form.Label htmlFor="login" className="mb-1">Логин</Form.Label>
 
                                             <Form.Control
@@ -94,29 +176,20 @@ const App = ({ title }: { title: string }) => {
                                                 name="login"
                                                 type="email"
                                                 value={user.login}
+                                                readOnly
+                                                disabled
                                             />
                                         </Col>
 
-                                        <Col className="mb-3" md={4}>
-                                            <Form.Label htmlFor="password" className="mb-1">Пароль</Form.Label>
+                                        <Col className="mb-3" md={6}>
+                                            <Form.Label htmlFor="birthday" className="mb-1">Дата рождения</Form.Label>
 
                                             <Form.Control
-                                                id="password"
-                                                name="password"
-                                                type="password"
-                                                aria-describedby="password-description"
-                                            />
-
-                                            <Form.Text id="password-description" muted>Длина пароля должна быть от 8 до 20 символов</Form.Text>
-                                        </Col>
-
-                                        <Col className="mb-3" md={4}>
-                                            <Form.Label htmlFor="confirmation-password" className="mb-1">Повторите пароль</Form.Label>
-
-                                            <Form.Control
-                                                id="confirmation-password"
-                                                name="confirmationPassword"
-                                                type="password"
+                                                id="birthday"
+                                                name="birthday"
+                                                type="date"
+                                                value={birthday}
+                                                onChange={handleBirthdayChange}
                                             />
                                         </Col>
                                     </Row>
@@ -131,7 +204,8 @@ const App = ({ title }: { title: string }) => {
                                                 id="created-at"
                                                 name="createdAt"
                                                 type="text"
-                                                value={user.createdAt.toLocaleString()}
+                                                value={user.createdAt}
+                                                readOnly
                                                 disabled
                                             />
                                         </Col>
@@ -143,7 +217,8 @@ const App = ({ title }: { title: string }) => {
                                                 id="updated-at"
                                                 name="updatedAt"
                                                 type="text"
-                                                value={user.updatedAt.toLocaleString()}
+                                                value={user.updatedAt}
+                                                readOnly
                                                 disabled
                                             />
                                         </Col>
