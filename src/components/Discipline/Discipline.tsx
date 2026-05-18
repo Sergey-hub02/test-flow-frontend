@@ -13,6 +13,8 @@ const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) 
     const isUser = (variant === 'student')
     const isTeacher = (variant === 'teacher')
 
+    const photo = discipline.photo ?? placeholderImage
+
     const handleDelete = () => {
         if (!onDelete) {
             return
@@ -26,7 +28,7 @@ const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) 
             <Card.Header>
                 <div className="card-image-conatiner rounded mb-3">
                     <Image
-                        src={placeholderImage}
+                        src={photo}
                         alt={discipline.name}
                         className="w-100"
                         fluid
