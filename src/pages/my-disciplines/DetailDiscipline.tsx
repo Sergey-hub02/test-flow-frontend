@@ -42,6 +42,7 @@ const DetailDiscipline = () => {
     if (!loading && error) {
         return (
             <div className="d-flex flex-column min-vh-100">
+                <title>Ошибка</title>
                 <Alert variant="danger">{error}</Alert>
             </div>
         )

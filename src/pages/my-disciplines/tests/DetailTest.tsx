@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router'
 import { Container, Row, Col, ListGroupItem, Alert, Button } from 'react-bootstrap'
-import { type MouseEvent, useContext } from 'react'
+import { type MouseEvent, useContext, useEffect, useState } from 'react'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -9,15 +9,47 @@ import Footer from '@/components/Footer/Footer'
 import TableOfContents from '@/components/TableOfContents/TableOfContents'
 import AttemptCard from '@/components/AttemptsCard/AttemptCard'
 
-import tests from '@/mocks/tests'
 import '../DetailDiscipline.scss'
 
 const DetailTest = () => {
     const { user } = useContext(AuthContext)
     const { disciplineId, testId } = useLoaderData()
 
-    // TODO: добавить на бэке фильтрацию попыток по роли пользователя
-    const [test] = tests.filter(test => test.disciplineId === disciplineId && test.guid === testId)
+    const [test, setTest] = useState<any>()
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string>('')
+
+    const fetchTestData = async () => {
+        const response = await fetch(`/api/v1/disciplines/${disciplineId}/tests/${testId}`)
+        const body = await response.json()
+
+        if (!response.ok && body.error) {
+            setError(body.error)
+            return
+        }
+
+        setTest(body)
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        fetchTestData()
+    }, [])
+
+    if (loading) {
+        return (
+            <div className="d-flex flex-column min-vh-100">Загрузка...</div>
+        )
+    }
+
+    if (!loading && error) {
+        return (
+            <div className="d-flex flex-column min-vh-100">
+                <title>Ошибка</title>
+                <Alert variant="danger">{error}</Alert>
+            </div>
+        )
+    }
 
     const description = test.fullDescription ?? test.description
     const finalGrade = test.finalGrade ?? '(не рассчитана)'
@@ -55,7 +87,7 @@ const DetailTest = () => {
 
                                         <div className="mt-2">
                                             <div><strong>Длительность:</strong> {test.duration} мин.</div>
-                                            <div><strong>Количество попыток:</strong> {test.attemptsCount}</div>
+                                            <div><strong>Количество попыток:</strong> {test.attemptsLimit}</div>
                                             <div><strong>Итоговая оценка за тест:</strong> {finalGrade}</div>
                                         </div>
 
@@ -77,7 +109,7 @@ const DetailTest = () => {
                                             {test.attempts && test.attempts.length > 0
                                                 ? (
                                                     <Row>
-                                                        {test.attempts.map((attempt, index) => (
+                                                        {test.attempts.map((attempt: any, index: number) => (
                                                             <Col key={attempt.guid} lg={4} className="mb-3">
                                                                 <AttemptCard
                                                                     guid={attempt.guid}
@@ -103,8 +135,8 @@ const DetailTest = () => {
                                 <TableOfContents title={`Задания для теста "${test.name}"`}>
                                     {test.problems
                                         && test.problems.length > 0
-                                        && test.problems.map((problem, index) => (
-                                            <ListGroupItem key={index}>{problem}</ListGroupItem>
+                                        && test.problems.map((problem: any, index: number) => (
+                                            <ListGroupItem key={index}>{problem.wording}</ListGroupItem>
                                         ))}
                                 </TableOfContents>
                             </div>
