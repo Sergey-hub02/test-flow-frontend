@@ -90,18 +90,29 @@ const AttemptFull = () => {
         formData.append('test', testId)
         formData.append('user', user.guid)
 
-        const response = await fetch('/api/v1/attempts', {
+        let response = await fetch('/api/v1/attempts', {
             method: 'POST',
             body: formData,
         })
 
-        const body = await response.json()
+        let body = await response.json()
 
         if (!response.ok && body.error) {
             setError(body.error)
             return
         }
 
+        const attemptId = body.attemptGuid
+
+        response = await fetch(`/api/v1/attempts/${attemptId}/grade`, { method: 'PATCH' })
+        body = await response.json()
+
+        if (!response.ok && body.error) {
+            setError(body.error)
+            return
+        }
+
+        setError('')
         window.location.href = `/my-disciplines/${test.discipline.guid}/tests/${testId}`
     }
 

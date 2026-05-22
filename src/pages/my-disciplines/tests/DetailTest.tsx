@@ -120,7 +120,7 @@ const DetailTest = () => {
                                                                 <AttemptCard
                                                                     guid={attempt.guid}
                                                                     title={`Попытка №${index + 1}`}
-                                                                    grade={attempt.finalGrade}
+                                                                    grade={attempt.grade}
                                                                     createdAt={new Date(attempt.createdAt)}
                                                                     updatedAt={new Date(attempt.updatedAt)}
                                                                     showLink={user.role === 'teacher'}
