@@ -1,5 +1,8 @@
-import { Modal, Form, Button } from 'react-bootstrap'
+import { useContext, useState, type SubmitEvent } from 'react'
+import { Modal, Form, Button, Alert } from 'react-bootstrap'
+
 import { type DisciplineType } from '@/types/discipline'
+import { AuthContext } from '@/contexts/AuthContext'
 
 type ViewDisciplineModalProps = {
     show: boolean,
@@ -8,6 +11,34 @@ type ViewDisciplineModalProps = {
 }
 
 const ViewDisciplineModal = (props: ViewDisciplineModalProps) => {
+    const { user } = useContext(AuthContext)
+    const [error, setError] = useState('')
+
+    const handleAddDiscipline = async (event: SubmitEvent) => {
+        event.preventDefault()
+
+        const response = await fetch('/api/v1/users/disciplines', {
+            method: 'POST',
+            body: JSON.stringify({
+                userGuid: user.guid,
+                disciplineGuid: props.discipline.guid,
+            }),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+        })
+
+        const body = await response.json()
+
+        if (!response.ok && body.error) {
+            setError(body.error)
+            return
+        }
+
+        setError('')
+        window.location.reload()
+    }
+
     return (
         <Modal
             {...props}
@@ -19,7 +50,13 @@ const ViewDisciplineModal = (props: ViewDisciplineModalProps) => {
             </Modal.Header>
 
             <Modal.Body>
-                <Form>
+                <Form method="post" onSubmit={handleAddDiscipline}>
+                    {error && (
+                        <Form.Group className="mb-3">
+                            <Alert variant="danger">{error}</Alert>
+                        </Form.Group>
+                    )}
+
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="name" className="mb-1">Название</Form.Label>
 

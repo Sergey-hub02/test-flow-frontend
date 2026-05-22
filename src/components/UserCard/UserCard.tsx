@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router'
 import { Card, ListGroup, Image } from 'react-bootstrap'
-import userStubImage from '@assets/user-stub.svg'
+import userStubImage from '@/assets/user-stub.svg'
 import type { UserType } from '@/types/user'
 import './UserCard.scss'
 
@@ -49,13 +49,24 @@ const UserCard = ({ user }: UserCardProps) => {
                     Мои дисциплины
                 </ListGroup.Item>
 
+                {user.role === 'student' && (
+                    <ListGroup.Item
+                        as={Link}
+                        to="/disciplines/"
+                        active={pathname === '/disciplines/'}
+                        action
+                    >
+                        Список доступных дисциплин
+                    </ListGroup.Item>
+                )}
+
                 <ListGroup.Item
                     as={Link}
-                    to="/disciplines/"
-                    active={pathname === '/disciplines/'}
+                    to="/grades/"
+                    active={pathname === '/grades/'}
                     action
                 >
-                    Список доступных дисциплин
+                    Итоговые оценки
                 </ListGroup.Item>
 
                 <ListGroup.Item

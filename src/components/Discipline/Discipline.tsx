@@ -1,16 +1,19 @@
 import { Card, Image, Button } from 'react-bootstrap'
 import { type DisciplineType } from '@/types/discipline'
-import placeholderImage from '@assets/placeholder.png'
+import placeholderImage from '@/assets/placeholder.png'
 
 type DisciplineProps = {
     discipline: DisciplineType,
-    variant: 'regular' | 'user',
+    variant: string,
     onView: (discipline: DisciplineType) => void,
     onDelete?: (discipline: DisciplineType) => void,
 }
 
 const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) => {
-    const isUser = (variant === 'user')
+    const isUser = (variant === 'student')
+    const isTeacher = (variant === 'teacher')
+
+    const photo = discipline.photo ?? placeholderImage
 
     const handleDelete = () => {
         if (!onDelete) {
@@ -25,7 +28,7 @@ const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) 
             <Card.Header>
                 <div className="card-image-conatiner rounded mb-3">
                     <Image
-                        src={placeholderImage}
+                        src={photo}
                         alt={discipline.name}
                         className="w-100"
                         fluid
@@ -42,23 +45,23 @@ const Discipline = ({ discipline, variant, onView, onDelete }: DisciplineProps) 
 
             <Card.Footer>
                 <div className="d-flex flex-wrap">
-                    {isUser && (
-                        <>
-                            <Button
-                                href="/my-disciplines/disciplineId/"
-                                className="bg-dark mt-1"
-                            >Просмотр</Button>
-
-                            <Button
-                                type="button"
-                                variant="danger"
-                                className="ms-1 mt-1"
-                                onClick={handleDelete}
-                            >Удалить</Button>
-                        </>
+                    {(isUser || isTeacher) && (
+                        <Button
+                            href={`./${discipline.guid}/`}
+                            className="bg-dark mt-1"
+                        >Просмотр</Button>
                     )}
 
-                    {!isUser && (
+                    {isUser && (
+                        <Button
+                            type="button"
+                            variant="danger"
+                            className="ms-1 mt-1"
+                            onClick={handleDelete}
+                        >Удалить</Button>
+                    )}
+
+                    {!isUser && !isTeacher && (
                         <>
                             <Button
                                 type="button"

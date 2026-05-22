@@ -7,10 +7,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
-      '@assets': '/src/assets',
-      '@components': '/src/components',
-      '@types': '/src/types',
-      '@contexts': '/src/contexts',
+    },
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+      '/upload': 'http://localhost:3000',
     },
   },
 })

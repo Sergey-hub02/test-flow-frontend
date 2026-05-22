@@ -1,5 +1,5 @@
 import { Container, Navbar, Nav, Col } from 'react-bootstrap';
-import Logo from '@components/Logo/Logo'
+import Logo from '@/components/Logo/Logo'
 
 const Footer = () => {
     return (

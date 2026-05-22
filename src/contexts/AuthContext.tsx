@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const login = (token: string) => {
         Cookies.set('accessJWT', token)
         setUserFromToken(token)
+        setLoading(false)
     }
 
     const logout = () => {

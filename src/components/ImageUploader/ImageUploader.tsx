@@ -1,11 +1,22 @@
-import { useState, type ChangeEvent } from 'react'
+import { useState, useEffect, useContext, type ChangeEvent, type SubmitEvent } from 'react'
 import { Form, Card, Image, Button } from 'react-bootstrap'
 import { MAX_FILE_UPLOAD_SIZE } from '@/constants'
-import userStubImage from '@assets/user-stub.svg'
+import { AuthContext } from '@/contexts/AuthContext'
+import userStubImage from '@/assets/user-stub.svg'
 
 const ImageUploader = () => {
+    const { user: userShort } = useContext(AuthContext)
     const [image, setImage] = useState(userStubImage)
+    const [photo, setPhoto] = useState<File>()
     const [errors, setErrors] = useState([] as string[])
+
+    useEffect(() => {
+        return () => {
+            if (image && image.startsWith('blob:')) {
+                URL.revokeObjectURL(image)
+            }
+        }
+    }, [image])
 
     const handleImageUpload = (event: ChangeEvent) => {
         const files = (event.target as HTMLInputElement).files
@@ -35,11 +46,41 @@ const ImageUploader = () => {
         }
 
         const url = URL.createObjectURL(file)
+
         setImage(url)
+        setPhoto(file)
+        setErrors([])
+    }
+
+    const handlePhotoUpdate = async (event: SubmitEvent) => {
+        event.preventDefault()
+
+        if (!photo) {
+            setErrors(['Не выбрано изображение!'])
+            return
+        }
+
+        const formData = new FormData()
+        formData.append('photo', photo)
+
+        const response = await fetch(`/api/v1/users/${userShort.guid}/photo`, {
+            method: 'PATCH',
+            body: formData,
+        })
+
+        const body = await response.json()
+
+        if (!response.ok) {
+            setErrors([body.error])
+            return
+        }
+
+        setErrors([])
+        window.location.reload()
     }
 
     return (
-        <Form className="border rounded py-3 px-4" encType="multipart/form-data">
+        <Form className="border rounded py-3 px-4" encType="multipart/form-data" method="post" onSubmit={handlePhotoUpdate}>
             <Form.Group className="mb-4">
                 <h4>Загрузка изображения</h4>
             </Form.Group>

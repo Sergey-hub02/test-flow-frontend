@@ -1,6 +1,6 @@
 import { NavbarBrand, Image } from 'react-bootstrap'
-import logoLightTheme from '@assets/test-flow-icon-64x64-light-theme.svg'
-import logoDarkTheme from '@assets/test-flow-icon-64x64-dark-theme.svg'
+import logoLightTheme from '@/assets/test-flow-icon-64x64-light-theme.svg'
+import logoDarkTheme from '@/assets/test-flow-icon-64x64-dark-theme.svg'
 
 const Logo = ({ theme }: { theme: 'dark' | 'light' }) => {
     const logo = (theme === 'dark') ? logoDarkTheme : logoLightTheme;

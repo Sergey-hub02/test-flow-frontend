@@ -6,7 +6,13 @@ import App from '@/pages/App'
 import Login from '@/pages/auth/login/Login'
 import Register from '@/pages/auth/register/Register'
 import Disciplines from '@/pages/disciplines/Disciplines'
-import UserDisciplines from '@/pages/disciplines/UserDisciplines'
+import UserDisciplines from '@/pages/my-disciplines/UserDisciplines'
+import DetailDiscipline from '@/pages/my-disciplines/DetailDiscipline'
+import DetailTest from '@/pages/my-disciplines/tests/DetailTest'
+import TestAttempt from '@/pages/tests/TestAttempt'
+import AttemptFull from '@/pages/tests/AttemptFull'
+import Grades from '@/pages/grades/Grades'
+import DetailAttempt from '@/pages/attempts/DetailAttempt'
 
 import { AuthProvider } from '@/contexts/AuthContext'
 
@@ -26,6 +32,51 @@ const router = createBrowserRouter([
         element: <UserDisciplines title="Мои дисциплины" />,
     },
     {
+        path: '/my-disciplines/:disciplineId',
+        element: <DetailDiscipline />,
+        loader: ({ params }) => {
+            return { disciplineId: params.disciplineId }
+        },
+    },
+    {
+        path: '/my-disciplines/:disciplineId/tests/:testId',
+        element: <DetailTest />,
+        loader: ({ params }) => {
+            return {
+                disciplineId: params.disciplineId,
+                testId: params.testId,
+            }
+        },
+    },
+    {
+        path: '/tests/:testId',
+        element: <AttemptFull />,
+        loader: ({ params }) => {
+            return { testId: params.testId }
+        },
+    },
+    {
+        path: '/tests/:testId/problems/:problemId',
+        element: <TestAttempt />,
+        loader: ({ params }) => {
+            return {
+                testId: params.testId,
+                problemId: params.problemId,
+            }
+        },
+    },
+    {
+        path: '/grades/',
+        element: <Grades title="Итоговые оценки" />,
+    },
+    {
+        path: '/attempts/:attemptId',
+        element: <DetailAttempt />,
+        loader: ({ params }) => {
+            return { attemptId: params.attemptId }
+        },
+    },
+    {
         path: '/auth/login/',
         element: <Login title="Вход в систему" />,
     },
@@ -34,10 +85,6 @@ const router = createBrowserRouter([
         element: <Register title="Регистрация в системе" />,
     },
 ])
-
-// createRoot(document.getElementById('root')!).render(
-//     <RouterProvider router={router} />,
-// )
 
 createRoot(document.getElementById('root')!).render(
     (

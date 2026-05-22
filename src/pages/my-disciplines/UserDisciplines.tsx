@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Alert } from 'react-bootstrap'
 
-import Header from '@components/Header/Header'
+import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 import UserCard from '@/components/UserCard/UserCard'
 import Discipline from '@/components/Discipline/Discipline'
@@ -11,48 +11,38 @@ import PaginationBlock from '@/components/PaginationBlock/PaginationBlock'
 import { type DisciplineType } from '@/types/discipline'
 import { AuthContext } from '@/contexts/AuthContext'
 
-const disciplines: DisciplineType[] = [
-    {
-        guid: '394bc3f7-08cc-48ad-bbbf-d3c4fd75a433',
-        name: 'Математический анализ',
-        teachers: 'Иванов И.И.',
-        description: 'Раздел математики, который изучает функции, их свойства и изменения. Изначально назывался "анализ бесконечно малых".',
-    },
-    {
-        guid: '81114674-fec8-4de7-838a-613ea6b9b923',
-        name: 'Линейная алгебра',
-        teachers: 'Иванов И.И.',
-        description: 'раздел алгебры, изучающий математические объекты линейной природы. К ним относятся векторные (линейные) пространства и их подпространства, линейные отображения (операторы), линейные, билинейные и квадратичные функции на векторных пространствах.',
-    },
-    {
-        guid: '87db5e1c-f7c0-4ffc-b912-adb7a19aa836',
-        name: 'Английский язык',
-        teachers: 'Иванов И.И.',
-        description: 'индоевропейский язык германской группы. Сложился в Англии в результате взаимодействия нескольких германоязычных племён (англы, саксы, юты) с местными автохтонами, говорившими на кельтских диалектах.',
-    },
-    {
-        guid: '375efd60-6164-4caf-91c1-1ed70d853bc0',
-        name: 'Информатика',
-        teachers: 'Иванов И.И.',
-        description: 'Наука о методах и процессах сбора, хранения, обработки, передачи, анализа и оценки информации с применением компьютерных технологий. Зародилась в середине XX века как самостоятельная наука.',
-    },
-    {
-        guid: 'd67ba4b5-3f77-415d-9ddc-bedc800d55e2',
-        name: 'Физика',
-        teachers: 'Иванов И.И.',
-        description: 'Наука о природе, изучающая простейшие и вместе с тем наиболее общие её закономерности.',
-    },
-]
-
 const UserDisciplines = ({ title }: { title: string }) => {
-    const { user } = useContext(AuthContext)
+    const { user, loading } = useContext(AuthContext)
     const [selectedDiscipline, setSelectedDiscipline] = useState({} as DisciplineType)
     const [showDisciplineModal, setShowDisciplineModal] = useState(false)
+    const [disciplines, setDisciplines] = useState<any[]>([])
+    const [error, setError] = useState('')
 
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
 
     const itemsPerPage = 2
+
+    const fetchUserDisciplines = async () => {
+        const response = await fetch(`/api/v1/users/${user.guid}/disciplines`)
+        const body = await response.json()
+
+        if (!response.ok && body?.error) {
+            setError(body.error)
+            return
+        }
+
+        setError('')
+        setDisciplines(body)
+    }
+
+    useEffect(() => {
+        if (loading) {
+            return
+        }
+
+        fetchUserDisciplines()
+    }, [loading])
 
     useEffect(() => {
         // TODO: здесь будет запрос к API
@@ -71,22 +61,40 @@ const UserDisciplines = ({ title }: { title: string }) => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
-    const handleDeleteDiscipline = (discipline: DisciplineType) => {
+    const handleDeleteDiscipline = async (discipline: DisciplineType) => {
         if (!confirm(`Вы уверены, что хотите удалить дисциплину "${discipline.name}" из своего списка?`)) {
             return
         }
 
-        // TODO: сделать вызов к API
-        console.log('Удаление дисциплины', discipline)
+        const response = await fetch('/api/v1/users/disciplines', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                userGuid: user.guid,
+                disciplineGuid: discipline.guid,
+            }),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+        })
+
+        const body = await response.json()
+
+        if (!response.ok && body?.error) {
+            setError(body.error)
+            return
+        }
+
+        setError('')
+        window.location.reload()
     }
 
     return (
-        <>
+        <div className="d-flex flex-column min-vh-100">
             <title>{title}</title>
 
             <Header />
 
-            <main className="py-4">
+            <main className="flex-grow-1 py-4">
                 <Container className="px-5" fluid>
                     <Row>
                         <Col className="m-lg-0 mx-auto mb-3" sm={6} lg={3}>
@@ -102,14 +110,20 @@ const UserDisciplines = ({ title }: { title: string }) => {
                                 </header>
 
                                 <div className="section-content">
+                                    {error && (
+                                        <Alert variant="danger">{error}</Alert>
+                                    )}
+
                                     <Row>
+                                        {disciplines.length <= 0 && <Alert variant="primary">Вы не записались ни на одну дисциплину!</Alert>}
+
                                         {
-                                            disciplines.map(discipline => {
+                                            disciplines.length > 0 && disciplines.map(discipline => {
                                                 return (
                                                     <Col key={discipline.guid} className="mt-3" sm={6} lg={4}>
                                                         <Discipline
                                                             discipline={discipline}
-                                                            variant="user"
+                                                            variant={user.role}
                                                             onView={handleViewDiscipline}
                                                             onDelete={handleDeleteDiscipline}
                                                         />
@@ -141,7 +155,7 @@ const UserDisciplines = ({ title }: { title: string }) => {
                 onHide={hideDisciplineModal}
                 discipline={selectedDiscipline}
             />
-        </>
+        </div>
     )
 }
 

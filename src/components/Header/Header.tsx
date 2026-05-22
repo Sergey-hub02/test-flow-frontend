@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { Navbar, Container, Dropdown } from 'react-bootstrap'
 
-import Logo from '@components/Logo/Logo'
-import SearchBar from '@components/SearchBar/SearchBar'
+import Logo from '@/components/Logo/Logo'
+import SearchBar from '@/components/SearchBar/SearchBar'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import './Header.scss'
