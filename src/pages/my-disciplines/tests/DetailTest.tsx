@@ -25,6 +25,7 @@ const DetailTest = () => {
 
         if (!response.ok && body.error) {
             setError(body.error)
+            setLoading(false)
             return
         }
 
@@ -51,18 +52,22 @@ const DetailTest = () => {
         )
     }
 
+    const attempts = (user.role === 'student')
+        ? test.attempts.filter((attempt: any) => user.guid === attempt.user.guid)
+        : test.attempts
+
     const description = test.fullDescription ?? test.description
     const finalGrade = test.finalGrade ?? '(не рассчитана)'
 
-    const goToTest = (event: MouseEvent) => {
+    const goToTest = async (event: MouseEvent) => {
         event.preventDefault();
-        const $this = event.target as HTMLAnchorElement;
+        const $this = event.target as HTMLAnchorElement
 
         if (!confirm('При подтверждении действия вы начнёте попытку. Продолжить?')) {
             return;
         }
 
-        window.location.href = $this.href;
+        window.location.href = $this.href
     }
 
     return (
@@ -94,8 +99,9 @@ const DetailTest = () => {
                                         {user.role === 'student' && (
                                             <div className="mt-3">
                                                 <Button
-                                                    href={`/tests/${testId}`}
+                                                    type="button"
                                                     variant="success"
+                                                    href={`/tests/${testId}/`}
                                                     onClick={goToTest}
                                                 >Пройти тест</Button>
                                             </div>
@@ -109,14 +115,14 @@ const DetailTest = () => {
                                             {test.attempts && test.attempts.length > 0
                                                 ? (
                                                     <Row>
-                                                        {test.attempts.map((attempt: any, index: number) => (
+                                                        {attempts.map((attempt: any, index: number) => (
                                                             <Col key={attempt.guid} lg={4} className="mb-3">
                                                                 <AttemptCard
                                                                     guid={attempt.guid}
                                                                     title={`Попытка №${index + 1}`}
                                                                     grade={attempt.finalGrade}
-                                                                    createdAt={attempt.createdAt}
-                                                                    updatedAt={attempt.updatedAt}
+                                                                    createdAt={new Date(attempt.createdAt)}
+                                                                    updatedAt={new Date(attempt.updatedAt)}
                                                                     showLink={user.role === 'teacher'}
                                                                 />
                                                             </Col>

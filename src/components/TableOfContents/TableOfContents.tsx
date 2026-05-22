@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import { Card, ListGroup } from 'react-bootstrap'
+import './TableOfContents.scss'
 
 type TableOfContentsProps = PropsWithChildren & {
     title: string,
@@ -7,7 +8,7 @@ type TableOfContentsProps = PropsWithChildren & {
 
 const TableOfContents = ({ title, children }: TableOfContentsProps) => {
     return (
-        <Card className="tests-list">
+        <Card className="tests-list overflow-y-auto">
             <Card.Header>
                 <Card.Title className="fs-6">{title}</Card.Title>
             </Card.Header>

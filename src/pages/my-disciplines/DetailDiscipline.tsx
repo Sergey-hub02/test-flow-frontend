@@ -79,7 +79,7 @@ const DetailDiscipline = () => {
                                         <div className="section-description mb-2">{discipline.description}</div>
 
                                         {discipline.teachers && discipline.teachers.length > 0 && (
-                                            <div><strong>Дисциплину ведут:</strong> {discipline.teachers}</div>
+                                            <div><strong>Дисциплину ведут:</strong> {discipline.teachers.join(', ')}</div>
                                         )}
 
                                         {discipline.tests?.length > 0 && (

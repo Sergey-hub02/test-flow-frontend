@@ -10,6 +10,7 @@ import UserDisciplines from '@/pages/my-disciplines/UserDisciplines'
 import DetailDiscipline from '@/pages/my-disciplines/DetailDiscipline'
 import DetailTest from '@/pages/my-disciplines/tests/DetailTest'
 import TestAttempt from '@/pages/tests/TestAttempt'
+import AttemptFull from '@/pages/tests/AttemptFull'
 import Grades from '@/pages/grades/Grades'
 import DetailAttempt from '@/pages/attempts/DetailAttempt'
 
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/tests/:testId',
-        element: <TestAttempt />,
+        element: <AttemptFull />,
         loader: ({ params }) => {
             return { testId: params.testId }
         },
