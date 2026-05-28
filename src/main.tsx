@@ -13,6 +13,9 @@ import TestAttempt from '@/pages/tests/TestAttempt'
 import AttemptFull from '@/pages/tests/AttemptFull'
 import Grades from '@/pages/grades/Grades'
 import DetailAttempt from '@/pages/attempts/DetailAttempt'
+import About from '@/pages/about/About'
+import Policy from '@/pages/policy/Policy'
+import UserAgreement from '@/pages/user-agreement/UserAgreement'
 
 import { AuthProvider } from '@/contexts/AuthContext'
 
@@ -75,6 +78,18 @@ const router = createBrowserRouter([
         loader: ({ params }) => {
             return { attemptId: params.attemptId }
         },
+    },
+    {
+        path: '/about/',
+        element: <About />,
+    },
+    {
+        path: '/policy/',
+        element: <Policy />,
+    },
+    {
+        path: '/user-agreement/',
+        element: <UserAgreement />,
     },
     {
         path: '/auth/login/',

@@ -60,14 +60,14 @@ const UserCard = ({ user }: UserCardProps) => {
                     </ListGroup.Item>
                 )}
 
-                <ListGroup.Item
+                {/* <ListGroup.Item
                     as={Link}
                     to="/grades/"
                     active={pathname === '/grades/'}
                     action
                 >
                     Итоговые оценки
-                </ListGroup.Item>
+                </ListGroup.Item> */}
 
                 <ListGroup.Item
                     as={Link}

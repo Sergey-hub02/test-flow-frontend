@@ -14,7 +14,6 @@ const Footer = () => {
                         <Navbar.Collapse className="justify-content-lg-end justify-content-center">
                             <Nav className="flex-md-row flex-column text-md-start text-center">
                                 <Nav.Link className="link-info" href="/about/">О проекте</Nav.Link>
-                                <Nav.Link className="link-info" href="/author/">Контакты автора</Nav.Link>
                                 <Nav.Link className="link-info" href="/policy/">Политика конфиденциальности</Nav.Link>
                                 <Nav.Link className="link-info" href="/user-agreement/">Пользовательское соглашение</Nav.Link>
                             </Nav>

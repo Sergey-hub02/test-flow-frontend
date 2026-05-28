@@ -56,8 +56,14 @@ const DetailTest = () => {
         ? test.attempts.filter((attempt: any) => user.guid === attempt.user.guid)
         : test.attempts
 
+    console.log(attempts)
     const description = test.fullDescription ?? test.description
-    const finalGrade = test.finalGrade ?? '(не рассчитана)'
+
+    const grades = test.attempts
+        .filter((attempt: any) => attempt.grade)
+        .map((attempt: any) => attempt.grade.value)
+
+    const finalGrade = Math.max(...grades) ?? '(не расчитана)'
 
     const goToTest = async (event: MouseEvent) => {
         event.preventDefault();
@@ -93,7 +99,10 @@ const DetailTest = () => {
                                         <div className="mt-2">
                                             <div><strong>Длительность:</strong> {test.duration} мин.</div>
                                             <div><strong>Количество попыток:</strong> {test.attemptsLimit}</div>
-                                            <div><strong>Итоговая оценка за тест:</strong> {finalGrade}</div>
+
+                                            {user.role === 'student' && (
+                                                <div><strong>Итоговая оценка за тест:</strong> {finalGrade}</div>
+                                            )}
                                         </div>
 
                                         {user.role === 'student' && (
@@ -120,6 +129,7 @@ const DetailTest = () => {
                                                                 <AttemptCard
                                                                     guid={attempt.guid}
                                                                     title={`Попытка №${index + 1}`}
+                                                                    user={`${attempt.user.lastName} ${attempt.user.firstName} ${attempt.user.secondName}`}
                                                                     grade={attempt.grade}
                                                                     createdAt={new Date(attempt.createdAt)}
                                                                     updatedAt={new Date(attempt.updatedAt)}

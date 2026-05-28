@@ -24,7 +24,6 @@ const Header = () => {
         <Navbar className="flex-nowrap border-bottom bg-white" sticky="top">
             <Container className="px-5" fluid>
                 <Logo theme="light" />
-                <SearchBar />
 
                 <Dropdown>
                     <Dropdown.Toggle
